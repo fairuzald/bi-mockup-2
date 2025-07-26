@@ -10,7 +10,6 @@ import type {
 } from './types';
 
 export const mockTransactions: SuspiciousTransaction[] = [
-  // Rantai Transaksi Pencucian Uang (4 hop) - ILLEGAL MINING
   {
     id: 'TXN-CHAIN-A',
     timestamp: '2024-05-22T08:00:00Z',
@@ -110,8 +109,6 @@ export const mockTransactions: SuspiciousTransaction[] = [
     device: { id: 'DEV-OFFSHORE', ip: '5.5.5.5', location: 'Cayman Islands' },
     previousTxId: 'TXN-CHAIN-C',
   },
-
-  // Transaksi Tunggal
   {
     id: 'TXN-GFC-001',
     timestamp: '2024-05-21T10:30:00Z',
@@ -186,55 +183,6 @@ export const mockTransactions: SuspiciousTransaction[] = [
     status: 'Blocked',
     channel: 'SWIFT',
     device: { id: 'DEV-003', ip: '1.55.2.3', location: 'Hanoi, VN' },
-  },
-  {
-    id: 'TXN-GFC-004',
-    timestamp: '2024-05-20T14:00:00Z',
-    amount: 50000,
-    currency: 'EUR',
-    source: {
-      id: 'ACC-WASTE-EU',
-      name: 'Euro Recycle GmbH',
-      bank: 'Deutsche Bank',
-      country: 'DEU',
-    },
-    destination: {
-      id: 'ACC-PORT-INA',
-      name: 'PT Pelabuhan Nusantara',
-      bank: 'Bank A',
-      country: 'IDN',
-    },
-    riskScore: 82,
-    category: 'Waste Trade',
-    reason: 'Payment for waste import from a company with previous sanctions.',
-    status: 'Flagged',
-    channel: 'SWIFT',
-    device: { id: 'DEV-004', ip: '88.1.2.3', location: 'Hamburg, DE' },
-  },
-  {
-    id: 'TXN-GFC-005',
-    timestamp: '2024-05-19T11:00:00Z',
-    amount: 200000000,
-    currency: 'SGD',
-    source: {
-      id: 'ACC-CARBON-A',
-      name: 'Green Credits Asia',
-      bank: 'DBS',
-      country: 'SGP',
-    },
-    destination: {
-      id: 'ACC-CARBON-B',
-      name: 'Eco Projects Indonesia',
-      bank: 'Bank B',
-      country: 'IDN',
-    },
-    riskScore: 91,
-    category: 'Carbon Credit Fraud',
-    reason:
-      'Anomalous high-volume trading of carbon credits with circular fund flows.',
-    status: 'Flagged',
-    channel: 'Online',
-    device: { id: 'DEV-005', ip: '118.100.1.2', location: 'Singapore, SG' },
   },
   ...Array.from(
     { length: 20 },
@@ -378,7 +326,6 @@ export const mockAccounts: SuspiciousAccount[] = [
     kycLevel: 'Enhanced',
     openDate: '2018-02-14',
   },
-  // === PERBAIKAN UTAMA DI SINI ===
   ...Array.from(
     { length: 15 },
     (_, i): SuspiciousAccount => ({
@@ -386,7 +333,7 @@ export const mockAccounts: SuspiciousAccount[] = [
       name: `Suspicious Entity ${i + 1}`,
       bank: 'Bank C',
       riskScore: Math.floor(Math.random() * 30) + 70,
-      status: 'Suspicious', // TypeScript kini tahu ini adalah 'Suspicious' bukan string umum
+      status: 'Suspicious',
       balance: Math.random() * 1e10,
       currency: 'IDR',
       transactionCount: {
@@ -516,50 +463,6 @@ export const mockCaseFiles: CaseFile[] = [
       },
     ],
   },
-  {
-    id: 'CASE-2024-050',
-    title: 'Sumatran Tiger Trafficking Network',
-    priority: 'High',
-    status: 'Pending Review',
-    investigator: 'Team Bravo',
-    createdDate: '2024-04-28',
-    lastUpdate: '2024-05-19',
-    summary:
-      'A network of individuals involved in the trafficking of protected wildlife, using crypto and fintech for payments.',
-    potentialLoss: 250000000,
-    threatActors: ['Unknown Syndicate'],
-    relatedTransactions: ['TXN-GFC-003'],
-    relatedAccounts: ['ACC-WILDLIFE-EXP'],
-    evidence: [
-      {
-        id: 'EV-002',
-        name: 'Crypto_Wallet_Trace.png',
-        type: 'Image',
-        uploadedAt: '2024-05-18',
-      },
-      {
-        id: 'EV-006',
-        name: 'Informant_Report_X.docx',
-        type: 'Document',
-        uploadedAt: '2024-05-19',
-      },
-    ],
-    log: [
-      {
-        timestamp: '2024-05-19T16:00:00Z',
-        user: 'Regulator B',
-        action: 'Status Changed',
-        notes:
-          'All evidence collected. Changed status to Pending Review by supervisor.',
-      },
-      {
-        timestamp: '2024-05-18T11:00:00Z',
-        user: 'Analyst B1',
-        action: 'Added Evidence',
-        notes: 'Uploaded crypto tracing analysis showing flow of funds.',
-      },
-    ],
-  },
 ];
 
 export const mockModelMetrics: ModelMetrics = {
@@ -586,18 +489,7 @@ export const mockModelMetrics: ModelMetrics = {
   ],
 };
 
-export const mockNetworkNodes: NetworkNode[] = [
-  ...mockAccounts
-    .filter(acc => acc.riskScore > 70)
-    .slice(0, 8)
-    .map(acc => ({
-      id: acc.id,
-      name: acc.name,
-      type: acc.type,
-      riskScore: acc.riskScore,
-    })),
-];
-
+// === PERBAIKAN KRITIS UNTUK D3 ===
 export const mockNetworkLinks: NetworkLink[] = [
   { source: 'ACC-PT-KAYU', target: 'ACC-SHELL-CYM' },
   { source: 'ACC-INDIV-X', target: 'ACC-PT-KAYU' },
@@ -605,7 +497,25 @@ export const mockNetworkLinks: NetworkLink[] = [
   { source: 'ACC-WILDLIFE-EXP', target: 'ACC-SHELL-CYM' },
   { source: 'ACC-POL-Z', target: 'ACC-LAWYER-A' },
   { source: 'ACC-MINING-CO', target: 'ACC-LAWYER-A' },
+  { source: 'ACC-LAWYER-A', target: 'ACC-PROPERTY-DEV' },
+  { source: 'ACC-PROPERTY-DEV', target: 'ACC-SHELL-CYM' },
 ];
+
+const allNodeIdsInLinks = new Set<string>();
+mockNetworkLinks.forEach(link => {
+  allNodeIdsInLinks.add(String(link.source));
+  allNodeIdsInLinks.add(String(link.target));
+});
+
+export const mockNetworkNodes: NetworkNode[] = mockAccounts
+  .filter(acc => allNodeIdsInLinks.has(acc.id))
+  .map(acc => ({
+    id: acc.id,
+    name: acc.name,
+    type: acc.type,
+    riskScore: acc.riskScore,
+  }));
+// === AKHIR PERBAIKAN ===
 
 export const mockCommunicationReports: CommunicationReport[] = [
   {

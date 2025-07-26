@@ -225,6 +225,15 @@ const DashboardPage: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
+          <div className="h-[500px]">
+            <Card
+              title="Live Fraud Network"
+              className="h-full"
+              bodyClassName="p-0 h-full"
+            >
+              <NetworkGraph />
+            </Card>
+          </div>
           <Card title="Critical Alerts - Immediate Action Required">
             <div className="space-y-4">
               {criticalAlerts.map(tx => (
@@ -258,6 +267,9 @@ const DashboardPage: React.FC = () => {
               ))}
             </div>
           </Card>
+        </div>
+
+        <div className="lg:col-span-1 h-[500px]">
           <Card title="Alert Trends by Category (YTD)">
             <ResponsiveContainer width="100%" height={300}>
               <AreaChart data={alertTrendData}>
@@ -297,16 +309,6 @@ const DashboardPage: React.FC = () => {
                 />
               </AreaChart>
             </ResponsiveContainer>
-          </Card>
-        </div>
-
-        <div className="lg:col-span-1 h-[500px]">
-          <Card
-            title="Live Fraud Network"
-            className="h-full"
-            bodyClassName="p-0 h-full"
-          >
-            <NetworkGraph />
           </Card>
         </div>
       </div>
