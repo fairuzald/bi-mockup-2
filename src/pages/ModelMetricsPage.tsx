@@ -41,7 +41,7 @@ const ModelMetricsPage: React.FC = () => {
     <div>
       <PageTitle
         title="AI Model Metrics"
-        subtitle="Performance and health monitoring for the GreenGuard detection model."
+        subtitle="Performance and health monitoring for the Green Intel Net detection model."
       />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
         <MetricCard label="Accuracy" value={`${accuracy}%`} />

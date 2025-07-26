@@ -1,12 +1,16 @@
 import type {
   AccountDetail,
+  AccountStatus,
+  AlertCategory,
   CaseFile,
   CommunicationReport,
+  Currency,
   ModelMetrics,
   NetworkLink,
   NetworkNode,
   SuspiciousAccount,
   SuspiciousTransaction,
+  TransactionStatus,
 } from './types';
 
 export const mockTransactions: SuspiciousTransaction[] = [
@@ -21,14 +25,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'PT Tambang Ilegal',
       bank: 'Bank F',
       country: 'IDN',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-LAWYER-A',
       name: 'Law Firm ABC',
       bank: 'Bank E',
       country: 'IDN',
-      type: 'Company',
     },
     riskScore: 85,
     category: 'Illegal Mining',
@@ -47,14 +49,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Law Firm ABC',
       bank: 'Bank E',
       country: 'IDN',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-PROPERTY-DEV',
       name: 'Properti Megah Corp',
       bank: 'Bank G',
       country: 'IDN',
-      type: 'Company',
     },
     riskScore: 88,
     category: 'Illegal Mining',
@@ -74,14 +74,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Properti Megah Corp',
       bank: 'Bank G',
       country: 'IDN',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-SHELL-CYM',
       name: 'Verdant Holdings Ltd.',
       bank: 'Global Trust Bank',
       country: 'CYM',
-      type: 'Company',
     },
     riskScore: 96,
     category: 'Illegal Mining',
@@ -101,14 +99,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Verdant Holdings Ltd.',
       bank: 'Global Trust Bank',
       country: 'CYM',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-POL-Z',
       name: 'Politician Z',
       bank: 'Bank C',
       country: 'IDN',
-      type: 'Individual',
     },
     riskScore: 99,
     category: 'Illegal Mining',
@@ -130,14 +126,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'PT Kayu Makmur Abadi',
       bank: 'Bank A',
       country: 'IDN',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-SHELL-CYM',
       name: 'Verdant Holdings Ltd.',
       bank: 'Global Trust Bank',
       country: 'CYM',
-      type: 'Company',
     },
     riskScore: 95,
     category: 'Illegal Logging',
@@ -157,14 +151,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Bambang S.',
       bank: 'Bank B',
       country: 'IDN',
-      type: 'Individual',
     },
     destination: {
       id: 'ACC-POL-Z',
       name: 'Politician Z',
       bank: 'Bank C',
       country: 'IDN',
-      type: 'Individual',
     },
     riskScore: 88,
     category: 'Illegal Mining',
@@ -184,14 +176,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Global Nature Fund',
       bank: 'Citibank',
       country: 'USA',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-WILDLIFE-EXP',
       name: 'Exotic Fauna Global',
       bank: 'Vietcombank',
       country: 'VNM',
-      type: 'Company',
     },
     riskScore: 98,
     category: 'Wildlife Trafficking',
@@ -211,14 +201,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Euro Recycle GmbH',
       bank: 'Deutsche Bank',
       country: 'DEU',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-PORT-INA',
       name: 'PT Pelabuhan Nusantara',
       bank: 'Bank A',
       country: 'IDN',
-      type: 'Company',
     },
     riskScore: 82,
     category: 'Waste Trade',
@@ -237,14 +225,12 @@ export const mockTransactions: SuspiciousTransaction[] = [
       name: 'Green Credits Asia',
       bank: 'DBS',
       country: 'SGP',
-      type: 'Company',
     },
     destination: {
       id: 'ACC-CARBON-B',
       name: 'Eco Projects Indonesia',
       bank: 'Bank B',
       country: 'IDN',
-      type: 'Company',
     },
     riskScore: 91,
     category: 'Carbon Credit Fraud',
@@ -258,25 +244,23 @@ export const mockTransactions: SuspiciousTransaction[] = [
     id: `TXN-GFC-0${i + 10}`,
     timestamp: new Date(Date.now() - i * 3600000).toISOString(),
     amount: Math.floor(Math.random() * 1e9) + 1e7,
-    currency: 'IDR' as const,
+    currency: 'IDR' as Currency,
     source: {
       id: `ACC-SRC-${i}`,
       name: `Source Corp ${i}`,
       bank: 'Bank D',
       country: 'IDN',
-      type: 'Company' as const,
     },
     destination: {
       id: `ACC-DST-${i}`,
       name: `Offshore Ltd ${i}`,
       bank: 'International Bank',
       country: 'HKG',
-      type: 'Company' as const,
     },
     riskScore: Math.floor(Math.random() * 40) + 60,
-    category: 'Illegal Logging' as const,
+    category: 'Illegal Logging' as AlertCategory,
     reason: 'Automated generation for testing.',
-    status: 'Flagged' as const,
+    status: 'Flagged' as TransactionStatus,
     channel: 'Online' as const,
     device: { id: `DEV-RAND-${i}`, ip: '127.0.0.1', location: 'Unknown' },
   })),
@@ -395,14 +379,14 @@ export const mockAccounts: SuspiciousAccount[] = [
     kycLevel: 'Enhanced',
     openDate: '2018-02-14',
   },
-  ...Array.from({ length: 15 }, (_, i) => ({
+  ...(Array.from({ length: 15 }, (_, i) => ({
     id: `ACC-SUS-${i}`,
     name: `Suspicious Entity ${i + 1}`,
     bank: 'Bank C',
     riskScore: Math.floor(Math.random() * 30) + 70,
-    status: 'Suspicious' as const,
+    status: 'Suspicious' as AccountStatus,
     balance: Math.random() * 1e10,
-    currency: 'IDR' as const,
+    currency: 'IDR' as Currency,
     transactionCount: {
       incoming: Math.floor(Math.random() * 25),
       outgoing: Math.floor(Math.random() * 25),
@@ -411,9 +395,9 @@ export const mockAccounts: SuspiciousAccount[] = [
       .toISOString()
       .split('T')[0],
     type: 'Company' as const,
-    kycLevel: 'Basic',
+    kycLevel: 'Basic' as const,
     openDate: '2023-01-01',
-  })),
+  })) as SuspiciousAccount[]),
 ].sort((a, b) => b.riskScore - a.riskScore);
 
 export const mockCaseFiles: CaseFile[] = [
@@ -421,10 +405,10 @@ export const mockCaseFiles: CaseFile[] = [
     id: 'CASE-2024-052',
     title: 'Illegal Mining Money Laundering Chain',
     priority: 'Critical',
-    status: 'New',
-    investigator: 'Unassigned',
+    status: 'Investigating',
+    investigator: 'Team Charlie',
     createdDate: '2024-05-22',
-    lastUpdate: '2024-05-22',
+    lastUpdate: '2024-05-23',
     summary:
       'A complex 4-hop transaction chain originating from an illegal mining operation, moving funds through a law firm, property developer, and finally to an offshore account linked to a PEP.',
     potentialLoss: 500000000,
@@ -442,8 +426,49 @@ export const mockCaseFiles: CaseFile[] = [
       'ACC-SHELL-CYM',
       'ACC-POL-Z',
     ],
-    evidence: [],
-    log: [],
+    evidence: [
+      {
+        id: 'EV-003',
+        name: 'STR_BankF.pdf',
+        type: 'STR',
+        uploadedAt: '2024-05-22',
+      },
+      {
+        id: 'EV-004',
+        name: 'Corporate_Registry_CYM.pdf',
+        type: 'Document',
+        uploadedAt: '2024-05-23',
+      },
+    ],
+    log: [
+      {
+        timestamp: '2024-05-22T11:00:00Z',
+        user: 'System',
+        action: 'Case Created',
+        notes:
+          'New case automatically generated from high-risk transaction chain (TXN-CHAIN-D).',
+      },
+      {
+        timestamp: '2024-05-22T11:05:00Z',
+        user: 'Supervisor',
+        action: 'Assigned Case',
+        notes: 'Assigned to Team Charlie for immediate investigation.',
+      },
+      {
+        timestamp: '2024-05-23T09:30:00Z',
+        user: 'Analyst C1',
+        action: 'Added Evidence',
+        notes:
+          'Uploaded STR from Bank F regarding initial placement from ACC-MINING-CO.',
+      },
+      {
+        timestamp: '2024-05-23T14:00:00Z',
+        user: 'Analyst C2',
+        action: 'Sent RFI',
+        notes:
+          'Request for Information sent to Bank E regarding the role of ACC-LAWYER-A.',
+      },
+    ],
   },
   {
     id: 'CASE-2024-051',
@@ -456,9 +481,9 @@ export const mockCaseFiles: CaseFile[] = [
     summary:
       'Investigation into a suspected illegal logging operation using a complex network of shell companies to launder proceeds.',
     potentialLoss: 1500000000,
-    threatActors: ['Bambang S.', 'Politician Z'],
+    threatActors: ['Bambang S.'],
     relatedTransactions: ['TXN-GFC-001'],
-    relatedAccounts: ['ACC-PT-KAYU', 'ACC-SHELL-CYM'],
+    relatedAccounts: ['ACC-PT-KAYU', 'ACC-SHELL-CYM', 'ACC-INDIV-X'],
     evidence: [
       {
         id: 'EV-001',
@@ -466,13 +491,25 @@ export const mockCaseFiles: CaseFile[] = [
         type: 'STR',
         uploadedAt: '2024-05-15',
       },
+      {
+        id: 'EV-005',
+        name: 'Shipping_Manifest_Discrepancy.pdf',
+        type: 'Document',
+        uploadedAt: '2024-05-18',
+      },
     ],
     log: [
       {
-        timestamp: '2024-05-21',
+        timestamp: '2024-05-21T14:00:00Z',
         user: 'Regulator A',
         action: 'Escalated to OJK',
-        notes: 'Requesting transaction freeze on related accounts.',
+        notes: 'Requesting transaction freeze on related accounts ACC-PT-KAYU.',
+      },
+      {
+        timestamp: '2024-05-20T10:00:00Z',
+        user: 'Analyst A1',
+        action: 'Linked Account',
+        notes: 'Linked ACC-INDIV-X to this case based on shared device ID.',
       },
     ],
   },
@@ -497,13 +534,26 @@ export const mockCaseFiles: CaseFile[] = [
         type: 'Image',
         uploadedAt: '2024-05-18',
       },
+      {
+        id: 'EV-006',
+        name: 'Informant_Report_X.docx',
+        type: 'Document',
+        uploadedAt: '2024-05-19',
+      },
     ],
     log: [
       {
-        timestamp: '2024-05-19',
+        timestamp: '2024-05-19T16:00:00Z',
         user: 'Regulator B',
-        action: 'Pending review by supervisor',
-        notes: 'All evidence collected. Awaiting approval for next steps.',
+        action: 'Status Changed',
+        notes:
+          'All evidence collected. Changed status to Pending Review by supervisor.',
+      },
+      {
+        timestamp: '2024-05-18T11:00:00Z',
+        user: 'Analyst B1',
+        action: 'Added Evidence',
+        notes: 'Uploaded crypto tracing analysis showing flow of funds.',
       },
     ],
   },
@@ -534,39 +584,15 @@ export const mockModelMetrics: ModelMetrics = {
 };
 
 export const mockNetworkNodes: NetworkNode[] = [
-  {
-    id: 'ACC-PT-KAYU',
-    name: 'PT Kayu Makmur Abadi',
-    type: 'Company',
-    riskScore: 95,
-  },
-  {
-    id: 'ACC-SHELL-CYM',
-    name: 'Verdant Holdings Ltd.',
-    type: 'Offshore',
-    riskScore: 99,
-  },
-  {
-    id: 'ACC-WILDLIFE-EXP',
-    name: 'Exotic Fauna Global',
-    type: 'Company',
-    riskScore: 98,
-  },
-  { id: 'ACC-INDIV-X', name: 'Bambang S.', type: 'Individual', riskScore: 88 },
-  { id: 'ACC-POL-Z', name: 'Politician Z', type: 'Individual', riskScore: 85 },
-  { id: 'ACC-LAWYER-A', name: 'Law Firm ABC', type: 'Company', riskScore: 75 },
-  {
-    id: 'ACC-MINING-CO',
-    name: 'PT Tambang Ilegal',
-    type: 'Company',
-    riskScore: 96,
-  },
-  {
-    id: 'ACC-PROPERTY-DEV',
-    name: 'Properti Megah Corp',
-    type: 'Company',
-    riskScore: 78,
-  },
+  ...mockAccounts
+    .filter(acc => acc.riskScore > 70)
+    .slice(0, 8)
+    .map(acc => ({
+      id: acc.id,
+      name: acc.name,
+      type: acc.type,
+      riskScore: acc.riskScore,
+    })),
 ];
 
 export const mockNetworkLinks: NetworkLink[] = [
@@ -602,7 +628,11 @@ export const mockCommunicationReports: CommunicationReport[] = [
 export const mockAccountDetails: AccountDetail[] = mockAccounts.map(acc => ({
   ...acc,
   address: 'Jl. Jenderal Sudirman No. 52, Jakarta, Indonesia',
-  country: acc.id.includes('CYM') ? 'Cayman Islands' : 'Indonesia',
+  country: acc.id.includes('CYM')
+    ? 'Cayman Islands'
+    : acc.id.includes('VNM')
+    ? 'Vietnam'
+    : 'Indonesia',
   firstSeen: acc.openDate,
   linkedEntities: [
     { id: 'DEV-98765', type: 'Device', relationship: 'Primary Device' },

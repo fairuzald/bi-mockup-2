@@ -64,10 +64,6 @@ const AccountDetailPage: React.FC = () => {
                 <span>{formatCurrency(acc.balance, acc.currency)}</span>
               </div>
               <div className="flex justify-between">
-                <span>Country:</span>
-                <span>{acc.country}</span>
-              </div>
-              <div className="flex justify-between">
                 <span>Account Opened:</span>
                 <span>{acc.openDate}</span>
               </div>

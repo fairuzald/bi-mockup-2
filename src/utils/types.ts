@@ -1,3 +1,5 @@
+import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3';
+
 export type RiskLevel = 'Low' | 'Medium' | 'High' | 'Critical';
 export type AlertCategory =
   | 'Illegal Logging'
@@ -24,7 +26,7 @@ export type EntityInfo = {
   id: string;
   name: string;
   bank: string;
-  type: string;
+  type?: string;
   country: string;
 };
 
@@ -39,9 +41,9 @@ export type SuspiciousTransaction = {
   category: AlertCategory;
   reason: string;
   status: TransactionStatus;
-  channel: 'SWIFT' | 'Mobile Banking' | 'ATM' | 'Cash Deposit';
+  channel: 'SWIFT' | 'Mobile Banking' | 'ATM' | 'Cash Deposit' | 'Online'; // 'Online' ditambahkan
   device: { id: string; ip: string; location: string };
-  previousTxId?: string; // <-- ATRIBUT BARU untuk merangkai transaksi
+  previousTxId?: string;
 };
 
 export type SuspiciousAccount = {
@@ -103,13 +105,15 @@ export type ModelMetrics = {
   performanceOverTime: { date: string; accuracy: number; precision: number }[];
 };
 
-export type NetworkNode = {
+// PERBAIKAN D3: NetworkNode sekarang extends SimulationNodeDatum
+export type NetworkNode = SimulationNodeDatum & {
   id: string;
   name: string;
   type: 'Company' | 'Individual' | 'Offshore';
   riskScore: number;
 };
-export type NetworkLink = { source: string; target: string };
+
+export type NetworkLink = SimulationLinkDatum<NetworkNode>;
 
 export type CommunicationReport = {
   id: string;
