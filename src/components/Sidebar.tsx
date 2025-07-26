@@ -3,7 +3,6 @@ import {
   Files,
   FileText,
   LayoutDashboard,
-  Leaf,
   Users,
   Wallet,
 } from 'lucide-react';
@@ -23,11 +22,14 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 bg-light-card/50 dark:bg-dark-card/50 backdrop-blur-xl flex-shrink-0 flex flex-col border-r border-light-border/50 dark:border-dark-border/50">
       <div className="h-20 flex items-center gap-3 px-6">
-        <div className="p-2 bg-gradient-to-br from-brand-green to-brand-green-light rounded-lg text-white shadow-lg shadow-brand-green/30">
-          <Leaf className="w-6 h-6" />
-        </div>
+        <img
+          src="/logo.png"
+          width={24}
+          height={24}
+          className="object-contain w-6 aspect-square"
+        />
         <h1 className="text-xl font-bold bg-gradient-to-r from-brand-green to-brand-green-light bg-clip-text text-transparent">
-          GreenGuard
+          Green Intel Net
         </h1>
       </div>
       <nav className="flex-1 px-4 py-6 space-y-1">

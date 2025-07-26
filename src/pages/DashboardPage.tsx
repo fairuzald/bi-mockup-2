@@ -95,7 +95,7 @@ const NetworkGraph = () => {
       .data(mockNetworkNodes)
       .join('g')
       .style('cursor', 'pointer')
-      .on('click', (event, d) => navigate(`/accounts/${d.id}`))
+      .on('click', (_, d) => navigate(`/accounts/${d.id}`))
       .call(drag(simulation));
     // === AKHIR PERBAIKAN TIPE D3 ===
 

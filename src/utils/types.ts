@@ -1,26 +1,12 @@
 import type { SimulationLinkDatum, SimulationNodeDatum } from 'd3';
 
-export type RiskLevel = 'Low' | 'Medium' | 'High' | 'Critical';
-export type AlertCategory =
-  | 'Illegal Logging'
-  | 'Illegal Mining'
-  | 'Wildlife Trafficking'
-  | 'Waste Trade'
-  | 'Carbon Credit Fraud';
-export type TransactionStatus =
-  | 'Flagged'
-  | 'Under Review'
-  | 'Cleared'
-  | 'Blocked';
-export type AccountStatus = 'Active' | 'Suspicious' | 'Frozen' | 'Blocked';
-export type ReportStatus = 'Draft' | 'Sent' | 'Acknowledged';
-export type CaseStatus =
-  | 'New'
-  | 'Open'
-  | 'Investigating'
-  | 'Pending Review'
-  | 'Closed';
-export type Currency = 'IDR' | 'USD' | 'EUR' | 'SGD';
+export type RiskLevel = string;
+export type AlertCategory = string;
+export type TransactionStatus = string;
+export type AccountStatus = string;
+export type ReportStatus = string;
+export type CaseStatus = string;
+export type Currency = string;
 
 export type EntityInfo = {
   id: string;
@@ -41,7 +27,7 @@ export type SuspiciousTransaction = {
   category: AlertCategory;
   reason: string;
   status: TransactionStatus;
-  channel: 'SWIFT' | 'Mobile Banking' | 'ATM' | 'Cash Deposit' | 'Online'; // 'Online' ditambahkan
+  channel: string;
   device: { id: string; ip: string; location: string };
   previousTxId?: string;
 };
@@ -56,8 +42,8 @@ export type SuspiciousAccount = {
   currency: Currency;
   transactionCount: { incoming: number; outgoing: number };
   lastActivity: string;
-  type: 'Company' | 'Individual';
-  kycLevel: 'Basic' | 'Enhanced' | 'Incomplete';
+  type: string;
+  kycLevel: string;
   openDate: string;
 };
 
@@ -77,7 +63,7 @@ export type CaseFile = {
   evidence: {
     id: string;
     name: string;
-    type: 'Document' | 'Image' | 'STR';
+    type: string;
     uploadedAt: string;
   }[];
   log: { timestamp: string; user: string; action: string; notes: string }[];
@@ -87,7 +73,7 @@ export type AccountDetail = SuspiciousAccount & {
   address: string;
   linkedEntities: {
     id: string;
-    type: 'Device' | 'IP' | 'Related Account';
+    type: string;
     relationship: string;
   }[];
   transactions: SuspiciousTransaction[];
@@ -109,7 +95,7 @@ export type ModelMetrics = {
 export type NetworkNode = SimulationNodeDatum & {
   id: string;
   name: string;
-  type: 'Company' | 'Individual' | 'Offshore';
+  type: string;
   riskScore: number;
 };
 

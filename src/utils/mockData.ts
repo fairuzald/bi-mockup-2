@@ -1,16 +1,12 @@
 import type {
   AccountDetail,
-  AccountStatus,
-  AlertCategory,
   CaseFile,
   CommunicationReport,
-  Currency,
   ModelMetrics,
   NetworkLink,
   NetworkNode,
   SuspiciousAccount,
   SuspiciousTransaction,
-  TransactionStatus,
 } from './types';
 
 export const mockTransactions: SuspiciousTransaction[] = [
@@ -240,30 +236,33 @@ export const mockTransactions: SuspiciousTransaction[] = [
     channel: 'Online',
     device: { id: 'DEV-005', ip: '118.100.1.2', location: 'Singapore, SG' },
   },
-  ...Array.from({ length: 20 }, (_, i) => ({
-    id: `TXN-GFC-0${i + 10}`,
-    timestamp: new Date(Date.now() - i * 3600000).toISOString(),
-    amount: Math.floor(Math.random() * 1e9) + 1e7,
-    currency: 'IDR' as Currency,
-    source: {
-      id: `ACC-SRC-${i}`,
-      name: `Source Corp ${i}`,
-      bank: 'Bank D',
-      country: 'IDN',
-    },
-    destination: {
-      id: `ACC-DST-${i}`,
-      name: `Offshore Ltd ${i}`,
-      bank: 'International Bank',
-      country: 'HKG',
-    },
-    riskScore: Math.floor(Math.random() * 40) + 60,
-    category: 'Illegal Logging' as AlertCategory,
-    reason: 'Automated generation for testing.',
-    status: 'Flagged' as TransactionStatus,
-    channel: 'Online' as const,
-    device: { id: `DEV-RAND-${i}`, ip: '127.0.0.1', location: 'Unknown' },
-  })),
+  ...Array.from(
+    { length: 20 },
+    (_, i): SuspiciousTransaction => ({
+      id: `TXN-GFC-0${i + 10}`,
+      timestamp: new Date(Date.now() - i * 3600000).toISOString(),
+      amount: Math.floor(Math.random() * 1e9) + 1e7,
+      currency: 'IDR',
+      source: {
+        id: `ACC-SRC-${i}`,
+        name: `Source Corp ${i}`,
+        bank: 'Bank D',
+        country: 'IDN',
+      },
+      destination: {
+        id: `ACC-DST-${i}`,
+        name: `Offshore Ltd ${i}`,
+        bank: 'International Bank',
+        country: 'HKG',
+      },
+      riskScore: Math.floor(Math.random() * 40) + 60,
+      category: 'Illegal Logging',
+      reason: 'Automated generation for testing.',
+      status: 'Flagged',
+      channel: 'Online',
+      device: { id: `DEV-RAND-${i}`, ip: '127.0.0.1', location: 'Unknown' },
+    })
+  ),
 ];
 
 export const mockAccounts: SuspiciousAccount[] = [
@@ -379,25 +378,29 @@ export const mockAccounts: SuspiciousAccount[] = [
     kycLevel: 'Enhanced',
     openDate: '2018-02-14',
   },
-  ...(Array.from({ length: 15 }, (_, i) => ({
-    id: `ACC-SUS-${i}`,
-    name: `Suspicious Entity ${i + 1}`,
-    bank: 'Bank C',
-    riskScore: Math.floor(Math.random() * 30) + 70,
-    status: 'Suspicious' as AccountStatus,
-    balance: Math.random() * 1e10,
-    currency: 'IDR' as Currency,
-    transactionCount: {
-      incoming: Math.floor(Math.random() * 25),
-      outgoing: Math.floor(Math.random() * 25),
-    },
-    lastActivity: new Date(Date.now() - i * 86400000)
-      .toISOString()
-      .split('T')[0],
-    type: 'Company' as const,
-    kycLevel: 'Basic' as const,
-    openDate: '2023-01-01',
-  })) as SuspiciousAccount[]),
+  // === PERBAIKAN UTAMA DI SINI ===
+  ...Array.from(
+    { length: 15 },
+    (_, i): SuspiciousAccount => ({
+      id: `ACC-SUS-${i}`,
+      name: `Suspicious Entity ${i + 1}`,
+      bank: 'Bank C',
+      riskScore: Math.floor(Math.random() * 30) + 70,
+      status: 'Suspicious', // TypeScript kini tahu ini adalah 'Suspicious' bukan string umum
+      balance: Math.random() * 1e10,
+      currency: 'IDR',
+      transactionCount: {
+        incoming: Math.floor(Math.random() * 25),
+        outgoing: Math.floor(Math.random() * 25),
+      },
+      lastActivity: new Date(Date.now() - i * 86400000)
+        .toISOString()
+        .split('T')[0],
+      type: 'Company',
+      kycLevel: 'Basic',
+      openDate: '2023-01-01',
+    })
+  ),
 ].sort((a, b) => b.riskScore - a.riskScore);
 
 export const mockCaseFiles: CaseFile[] = [
@@ -602,8 +605,6 @@ export const mockNetworkLinks: NetworkLink[] = [
   { source: 'ACC-WILDLIFE-EXP', target: 'ACC-SHELL-CYM' },
   { source: 'ACC-POL-Z', target: 'ACC-LAWYER-A' },
   { source: 'ACC-MINING-CO', target: 'ACC-LAWYER-A' },
-  { source: 'ACC-LAWYER-A', target: 'ACC-PROPERTY-DEV' },
-  { source: 'ACC-PROPERTY-DEV', target: 'ACC-SHELL-CYM' },
 ];
 
 export const mockCommunicationReports: CommunicationReport[] = [
